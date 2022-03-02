@@ -3,7 +3,7 @@
 /*Blueprint:
 	* Bond properties:
 	*	# of Years Until Maturity
-	*	Yield to Maturity --> Calculate separately
+	*	Yield to Maturity --> Calculate separately as member function
 	*	Market Price
 	*	Coupon Payments
 	*	Interest Rate
@@ -11,6 +11,7 @@
 	*	# of payments per year:
 	*		- annual
 	*		- semiannual
+	*		- quarterly
 	*
 	* Types of bonds:
 	*	- Zero-Coupon Bonds
@@ -20,7 +21,7 @@
 	*	- Convertible Bonds
 	* 
 	* Goal: Price the bond based off
-	*/
+*/
 
 class Bond {
 public:
@@ -43,7 +44,8 @@ public:
 	void setPar(double par);
 	void setMarketPrice(double price);
 
-
+	/* Bond Specific Calculations */
+	double yieldToMaturity();
 
 private:
 	int years;
@@ -51,5 +53,7 @@ private:
 	double cpnRate; // entered in  % form
 	double parValue;
 	double marketPrice;
+
+	double calculateYTM(double topFactor, double bottomFactor);
 
 };
