@@ -44,8 +44,14 @@ public:
 	void setPar(double par);
 	void setMarketPrice(double price);
 
+	/* Price Calculator Function */
+	double price() const;
+
 	/* Bond Specific Calculations */
-	double yieldToMaturity();
+	double yieldToMaturity() const;
+	double modifiedDuration() const;
+	double macaulayDuration() const;
+	double accruedExpense(int daysSinceLastCpn) const;
 
 private:
 	int years;
@@ -54,5 +60,6 @@ private:
 	double parValue;
 	double marketPrice;
 
-	double calculateYTM(double topFactor, double bottomFactor);
+	double calculateYTM(double topFactor, double bottomFactor) const;
+	double PVOfCpn(int period) const;
 };
