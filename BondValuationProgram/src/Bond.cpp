@@ -66,10 +66,31 @@ void Bond::setMarketPrice(double price) {
 	std::cout << "Bond's Market Price Set To " << price << std::endl;
 }
 
+/* Bond Calculations */
+double Bond::yieldToMaturity() {
+	/* To calculate the approximate yield to maturity the needed components are:
+		* the coupon paid per period, 
+		* the par value, 
+		* the market price
+		* the total number of periods  
+	*/
 
+	int numOfPeriods = years * numOfPmts; // establish total number of periods that coupon is paid
+	double couponPerPeriod = (cpnRate * parValue) / numOfPmts; // calculate the coupon paid per period; not annually
 
+	/* the denominator calculation */
+	double numer = couponPerPeriod + ((parValue - marketPrice) / numOfPeriods);
+	double denom = ((parValue + marketPrice) / 2);
 
+	/* calculate the actual yield to maturity using the above */
+	return calculateYTM(numer, denom);
 
+}
+
+/* private member functions */
+double Bond::calculateYTM(double topFactor, double bottomFactor) {
+	return topFactor / bottomFactor;
+}
 
 
 
