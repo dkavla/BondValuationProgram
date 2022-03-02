@@ -158,7 +158,6 @@ double Bond::calculateYTM(double topFactor, double bottomFactor) const  {
 	return topFactor / bottomFactor;
 }
 
-/* this function is used in the price calculation of the bond */
 double Bond::PVOfCpn(int period) const {
 	double cpn = ((cpnRate / numOfPmts) / 100) * parValue;
 	double PVFactor = 1 / pow(1 + ((yieldToMaturity() / 100) / 2), period);
@@ -168,12 +167,6 @@ double Bond::PVOfCpn(int period) const {
 	return cpn * PVFactor;
 }
 
-/* this function is specific to the calcualtion of the Macaulay Duration */
-double Bond::MacDurPVOFCpn(int period) const {
-	double cpn = ((cpnRate / numOfPmts) / 100) * parValue;
-	double PVFactor = 1 / pow(1 + ((yieldToMaturity() / 100) / 2), period);
-	return cpn * PVFactor;
-}
 
 
 

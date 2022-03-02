@@ -62,5 +62,4 @@ private:
 
 	double calculateYTM(double topFactor, double bottomFactor) const;
 	double PVOfCpn(int period) const;
-	double MacDurPVOFCpn(int period) const;
 };
