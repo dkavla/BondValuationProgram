@@ -55,5 +55,4 @@ private:
 	double marketPrice;
 
 	double calculateYTM(double topFactor, double bottomFactor);
-
 };
