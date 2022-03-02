@@ -76,15 +76,14 @@ double Bond::price() const {
 		and discounted. Afterwards, all the discounted coupons payments are 
 		summed up together in order to get calculated price of the bond. This 
 		will establish if the bond is selling at a discounted price, premium 
-		price, or at par.
+		price, or at par. The result of this function is the market value.
 	*/
 
 	double bondPrice = 0.0;
 	for (int i = 1; i <= (years * numOfPmts); i++) {
-		//std::cout << "Discounted Coupon in period " << i << " is " << PVOfCpn(i) << std::endl;
 		bondPrice += PVOfCpn(i);
 	}
-	//std::cout << "Calculated Bond Price: $" << TotalOfCoupons << std::endl;
+	
 	return bondPrice;
 	
 }
@@ -111,11 +110,43 @@ double Bond::yieldToMaturity() const {
 }
 
 double Bond::modifiedDuration() const {
-	return 0.0;
+	/*
+		The Modified Duration measures the average percentage of movement of the 
+		bond price for every 1% movement of the interest rate. (EX: the price of
+		a bond with a duration of 5 would be expected to move 5% for every 1% move
+		in interest rates.
+		
+	*/
+	return macaulayDuration() / (1 + ( (yieldToMaturity() / 100) / years) );
 }
 
 double Bond::macaulayDuration() const {
-	return 0.0;
+	/*
+		The calculation for the Macaulay Duration requires the following:
+		- coupon paid per period
+		- periodic yield
+		- number of periods
+		- maturity value
+
+		This is a measurement for the price sensitivity of the bond to changes in 
+		interest rates. This is just one of the meausrements. The Macaulay Duration
+		identifies how many years it will take to recover the initial investment (market value) 
+		by calculating the weighted average of each present value of future coupon payments using
+		the yield as a discount rate times the payment year.
+
+		The result of this calculation is expressed in years
+	*/
+
+
+	double marketValue = price(); // our calcualted bond price
+	double durationCalc = 0.0;
+	for (int i = 1; i <= (years * numOfPmts); i++) {
+		double cpnPV = PVOfCpn(i);
+		double weight = cpnPV / marketValue;
+		durationCalc += (weight * i);
+	}
+	
+	return durationCalc / numOfPmts; // adjust for total payment periods
 }
 
 double Bond::accruedExpense(int daysSinceLastCpn) const  {
@@ -127,6 +158,7 @@ double Bond::calculateYTM(double topFactor, double bottomFactor) const  {
 	return topFactor / bottomFactor;
 }
 
+/* this function is used in the price calculation of the bond */
 double Bond::PVOfCpn(int period) const {
 	double cpn = ((cpnRate / numOfPmts) / 100) * parValue;
 	double PVFactor = 1 / pow(1 + ((yieldToMaturity() / 100) / 2), period);
@@ -136,6 +168,12 @@ double Bond::PVOfCpn(int period) const {
 	return cpn * PVFactor;
 }
 
+/* this function is specific to the calcualtion of the Macaulay Duration */
+double Bond::MacDurPVOFCpn(int period) const {
+	double cpn = ((cpnRate / numOfPmts) / 100) * parValue;
+	double PVFactor = 1 / pow(1 + ((yieldToMaturity() / 100) / 2), period);
+	return cpn * PVFactor;
+}
 
 
 
