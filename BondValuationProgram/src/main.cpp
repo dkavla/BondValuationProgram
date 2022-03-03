@@ -17,6 +17,7 @@ int main() {
 	double marketPrice = 922.78;
 
 	Bond b1(timeToMaturity, freq, couponRate, par, marketPrice);
+	Bond b2 = b1;
 
 	cout.setf(std::ios::fixed);
 	cout.setf(std::ios::showpoint);
@@ -25,6 +26,8 @@ int main() {
 	std::cout << "Market Value: $" << b1.price() << std::endl;
 	std::cout << "Macaulay Duration: " << b1.macaulayDuration() << std::endl;
 	std::cout << "Modified Duration: " << b1.modifiedDuration() << "%" << std::endl;
+	std::cout << "Convexity: " << b1.convexity() << std::endl;
+
 
 
 	return 0;

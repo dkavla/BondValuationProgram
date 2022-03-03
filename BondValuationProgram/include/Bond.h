@@ -51,7 +51,10 @@ public:
 	double yieldToMaturity() const;
 	double modifiedDuration() const;
 	double macaulayDuration() const;
-	double accruedExpense(int daysSinceLastCpn) const;
+	double convexity() const;
+
+	/* Overloaded Operators */
+	friend bool operator==(Bond& b1, Bond& b2);
 
 private:
 	int years;

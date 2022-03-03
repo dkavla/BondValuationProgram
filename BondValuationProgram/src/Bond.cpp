@@ -149,8 +149,20 @@ double Bond::macaulayDuration() const {
 	return durationCalc / numOfPmts; // adjust for total payment periods
 }
 
-double Bond::accruedExpense(int daysSinceLastCpn) const  {
-	return 0.0;
+double Bond::convexity() const {
+	double marketValue = price();
+	double yield = yieldToMaturity() / 100;
+	double convexCalc = 0.0;
+
+	for (int i = 1; i <= (years * numOfPmts); i++) {
+		int timeSqWeighted = i + pow(i, 2);
+		convexCalc += (timeSqWeighted * PVOfCpn(i));
+	}
+
+	double numerator = convexCalc / pow(1 + yield, 2);
+	double denominator = marketValue * pow(numOfPmts, 2);
+
+	return numerator / denominator;
 }
 
 /* private member functions */
@@ -167,9 +179,15 @@ double Bond::PVOfCpn(int period) const {
 	return cpn * PVFactor;
 }
 
-
-
-
+/* Overloaded Operators */
+bool operator==(Bond& b1, Bond& b2) {
+	if (b1.years == b2.years && b1.numOfPmts == b2.numOfPmts 
+		&& b1.cpnRate == b2.cpnRate && b1.parValue == b2.parValue
+		&& b1.marketPrice == b2.marketPrice) {
+		return true;
+	}
+	return false;
+}
 
 
 
