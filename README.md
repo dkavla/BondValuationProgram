@@ -11,4 +11,4 @@ Additioanlly, this program currently is used as a command line tool that produce
   * Modified Duration
   * Macaulay Duration
 * Convexity
-Eventually, the expectations are to implement this project as a GUI project using a framework like 
+ 
